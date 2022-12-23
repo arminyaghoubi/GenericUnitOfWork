@@ -1,14 +1,53 @@
-﻿using GenericUnitOfWork.Common.Models;
-using GenericUnitOfWork.Common.ViewModels;
+﻿using GenericUnitOfWork.Common.ViewModels;
+using System.Linq.Expressions;
 
 namespace GenericUnitOfWork.DAL.Repositories;
 
 public interface IRepository<TEntity>
     where TEntity : class
 {
-    Task<IPagedList<TEntity>> GetPagedListAsync(int page, int pageSize);
-    Task<TEntity> GetByIdAsync(int id);
-    Task<TEntity> InsertAsync(TEntity entity);
-    Task UpdateAsync(TEntity entity);
-    void DeleteAsync(TEntity entity);
+    IPagedList<TEntity> GetPagedList(
+        Expression<Func<TEntity, bool>> predicate = null,
+        Expression<Func<TEntity, object>> include = null,
+        Expression<Func<TEntity, object>> order = null,
+        int page = 1,
+        int pageSize = 20,
+        bool disableTracking = true,
+        bool ignoreQueryFilters = false);
+
+    IPagedList<TResult> GetPagedList<TResult>(
+        Func<TEntity, TResult> selector,
+        Expression<Func<TEntity, bool>> predicate = null,
+        Expression<Func<TEntity, object>> include = null,
+        Expression<Func<TEntity, object>> order = null,
+        int page = 1,
+        int pageSize = 20,
+        bool disableTracking = true,
+        bool ignoreQueryFilters = false);
+
+    Task<TEntity?> GetByIdAsync(object[] keyValues, CancellationToken cancellationToken = default);
+
+    Task<TEntity?> GetFirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate = null,
+        bool disableTracking = true,
+        bool ignoreQueryFilters = false,
+        CancellationToken cancellationToken = default);
+
+    Task<TResult?> GetFirstOrDefaultAsync<TResult>(
+        Expression<Func<TEntity, TResult>> selector,
+        Expression<Func<TEntity, bool>> predicate = null,
+        bool disableTracking = true,
+        bool ignoreQueryFilters = false,
+        CancellationToken cancellationToken = default);
+
+    Task<TEntity> InsertAsync(TEntity entity, CancellationToken cancellationToken = default);
+
+    Task InsertRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default);
+
+    void Update(TEntity entity);
+
+    void UpdateRange(IEnumerable<TEntity> entities);
+
+    void Delete(TEntity entity);
+
+    void DeleteRange(IEnumerable<TEntity> entities);
 }
