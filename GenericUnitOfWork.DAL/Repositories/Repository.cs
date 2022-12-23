@@ -9,10 +9,10 @@ namespace GenericUnitOfWork.DAL.Repositories;
 public class Repository<TEntity> : IRepository<TEntity>
     where TEntity : class
 {
-    protected readonly ApplicationDbContext _context;
+    protected readonly DbContext _context;
     protected readonly DbSet<TEntity> _dbset;
 
-    public Repository(ApplicationDbContext context)
+    public Repository(DbContext context)
     {
         _context = context ?? throw new ArgumentNullException(nameof(_context));
         _dbset = _context.Set<TEntity>();
