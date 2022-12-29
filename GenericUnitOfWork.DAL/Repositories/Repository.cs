@@ -2,11 +2,12 @@
 using GenericUnitOfWork.Common.ViewModels;
 using GenericUnitOfWork.DAL.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.Linq.Expressions;
 
 namespace GenericUnitOfWork.DAL.Repositories;
 
-public class Repository<TEntity> : IRepository<TEntity>
+public class Repository<TEntity, TKey> : IRepository<TEntity, TKey>
     where TEntity : class
 {
     protected readonly DbContext _context;
@@ -18,10 +19,11 @@ public class Repository<TEntity> : IRepository<TEntity>
         _dbset = _context.Set<TEntity>();
     }
 
-    public async Task<TEntity?> GetByIdAsync(object[] keyValues, CancellationToken cancellationToken = default) =>
-        await _dbset.FindAsync(keyValues, cancellationToken);
+    public async Task<TEntity?> GetByIdAsync(TKey key, CancellationToken cancellationToken = default) =>
+        await _dbset.FindAsync(key, cancellationToken);
 
     public async Task<TEntity?> GetFirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate = null,
+        Expression<Func<TEntity, object>> include = null,
         bool disableTracking = true,
         bool ignoreQueryFilters = false,
         CancellationToken cancellationToken = default)
@@ -40,8 +42,9 @@ public class Repository<TEntity> : IRepository<TEntity>
         return await query.FirstOrDefaultAsync(cancellationToken);
     }
 
-    public async Task<TResult?> GetFirstOrDefaultAsync<TResult>(Expression<Func<TEntity, TResult>> selector
-        , Expression<Func<TEntity, bool>> predicate = null,
+    public async Task<TResult?> GetFirstOrDefaultAsync<TResult>(Expression<Func<TEntity, TResult>> selector,
+        Expression<Func<TEntity, bool>> predicate = null,
+        Expression<Func<TEntity, object>> include = null,
         bool disableTracking = true,
         bool ignoreQueryFilters = false,
         CancellationToken cancellationToken = default)
@@ -66,6 +69,7 @@ public class Repository<TEntity> : IRepository<TEntity>
         Expression<Func<TEntity, bool>> predicate = null,
         Expression<Func<TEntity, object>> include = null,
         Expression<Func<TEntity, object>> order = null,
+        bool ascending = true,
         int page = 1,
         int pageSize = 20,
         bool disableTracking = true,
@@ -96,6 +100,7 @@ public class Repository<TEntity> : IRepository<TEntity>
         Expression<Func<TEntity, bool>> predicate = null,
         Expression<Func<TEntity, object>> include = null,
         Expression<Func<TEntity, object>> order = null,
+        bool ascending = true,
         int page = 1,
         int pageSize = 20,
         bool disableTracking = true,
@@ -116,7 +121,10 @@ public class Repository<TEntity> : IRepository<TEntity>
             query = query.IgnoreQueryFilters();
 
         if (order is not null)
-            query = query.OrderBy(order);
+            if (ascending)
+                query = query.OrderBy(order);
+            else
+                query = query.OrderByDescending(order);
 
         return query.ToPagedList(selector, page, pageSize);
     }

@@ -12,7 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <ProjectReference Include="..\GenericUnitOfWork.BL\GenericUnitOfWork.BL.csproj" />
+    <ProjectReference Include="..\GenericUnitOfWork.DAL\GenericUnitOfWork.DAL.csproj" />
   </ItemGroup>
 
 </Project>

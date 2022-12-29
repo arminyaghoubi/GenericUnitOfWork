@@ -8,6 +8,6 @@ namespace GenericUnitOfWork.DAL.Repositories;
 
 public interface IRepositoryFactory
 {
-    IRepository<TEntity> GetRepository<TEntity>()
+    IRepository<TEntity, TKey> GetRepository<TEntity, TKey>()
         where TEntity : class;
 }
