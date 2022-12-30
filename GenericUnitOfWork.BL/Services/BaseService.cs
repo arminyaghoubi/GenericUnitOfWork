@@ -13,6 +13,7 @@ public abstract class BaseService<TEntity, TKey, TResult> : IBaseService<TEntity
     protected readonly IUnitOfWork _unitOfWork;
 
     protected abstract TEntity ViewModelToModel(TResult viewModel);
+    protected abstract void ChangeForUpdate(TEntity entity, TResult viewModel);
 
     protected IRepository<TEntity, TKey> Repository => _unitOfWork.GetRepository<TEntity, TKey>();
 
@@ -41,9 +42,8 @@ public abstract class BaseService<TEntity, TKey, TResult> : IBaseService<TEntity
         var entity = await Repository.GetByIdAsync(key, cancellationToken);
         if (entity is not null)
         {
-            var updateEntity= ViewModelToModel(viewModel);
-            updateEntity.Id = entity.Id;
-            Repository.Update(updateEntity);
+            ChangeForUpdate(entity, viewModel);
+            Repository.Update(entity);
             await _unitOfWork.SaveChangesAsync();
         }
     }

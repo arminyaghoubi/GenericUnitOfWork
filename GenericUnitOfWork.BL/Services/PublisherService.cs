@@ -52,6 +52,11 @@ public class PublisherService : BaseService<Publisher, short, PublisherViewModel
             page: page,
             pageSize: pageSize);
 
+    protected override void ChangeForUpdate(Publisher entity, PublisherViewModel viewModel)
+    {
+        entity.Title = viewModel.Title;
+    }
+
     protected override Publisher ViewModelToModel(PublisherViewModel viewModel) =>
         new Publisher
         {
