@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\GenericUnitOfWork.Common\GenericUnitOfWork.Common.csproj" />
+    <ProjectReference Include="..\GenericUnitOfWork.DAL\GenericUnitOfWork.DAL.csproj" />
+  </ItemGroup>
+
 </Project>

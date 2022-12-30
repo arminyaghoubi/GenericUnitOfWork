@@ -1,7 +1,15 @@
+using GenericUnitOfWork.DAL.Data;
+using GenericUnitOfWork.DAL.Extensions;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+builder.Services
+    .AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DatabaseConnection")))
+    .AddUnitOfWork<ApplicationDbContext>();
 
 var app = builder.Build();
 
