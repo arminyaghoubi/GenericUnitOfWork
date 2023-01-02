@@ -8,5 +8,6 @@ namespace GenericUnitOfWork.BL.Extensions;
 public static class ServicesExtensions
 {
     public static IServiceCollection AddBusinessLogicServices(this IServiceCollection services) =>
-        services.AddScoped<IBaseService<Publisher, short, PublisherViewModel>, PublisherService>();
+        services.AddScoped<IBaseService<Publisher, short, PublisherViewModel>, PublisherService>()
+        .AddScoped<IBaseService<Author, short, AuthorViewModel>, AuthorService>();
 }
