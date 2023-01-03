@@ -13,7 +13,7 @@ public class PublisherService : BaseService<Publisher, short, PublisherViewModel
 
     public override async Task<PublisherViewModel?> GetByIdAsync(short key, CancellationToken cancellationToken = default)
     {
-        var result= await Repository.GetByIdAsync(key, cancellationToken);
+        var result = await Repository.GetByIdAsync(key, cancellationToken);
         if (result is null)
             return null;
         return new PublisherViewModel
