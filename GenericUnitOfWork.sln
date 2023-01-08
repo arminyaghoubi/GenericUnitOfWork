@@ -11,9 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GenericUnitOfWork.BL", "Gen
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GenericUnitOfWork.Common", "GenericUnitOfWork.Common\GenericUnitOfWork.Common.csproj", "{846CE9DE-1993-48C8-99B1-FAC3C1A1C0B8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{DDE73A75-0B51-4B46-828B-A25CF2B313C9}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenericUnitOfWork.API", "GenericUnitOfWork.API\GenericUnitOfWork.API.csproj", "{BEECB6FA-A5A9-478B-893B-67A761B6E929}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GenericUnitOfWork.API", "GenericUnitOfWork.API\GenericUnitOfWork.API.csproj", "{BEECB6FA-A5A9-478B-893B-67A761B6E929}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
