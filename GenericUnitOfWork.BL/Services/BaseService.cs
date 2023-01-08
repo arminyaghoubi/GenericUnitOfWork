@@ -43,7 +43,6 @@ public abstract class BaseService<TEntity, TKey, TResult> : IBaseService<TEntity
         if (entity is not null)
         {
             ChangeForUpdate(entity, viewModel);
-            Repository.Update(entity);
             await _unitOfWork.SaveChangesAsync();
         }
     }
