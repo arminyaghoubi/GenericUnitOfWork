@@ -65,18 +65,16 @@ public class BookService : BaseService<Book, int, BookViewModel>
                 PublisherId = b.PublisherId,
                 AuthorFirstName = b.Author.FirstName,
                 AuthorLastName = b.Author.LastName,
-                PublisherTitle = b.Publisher.Title
             },
             predicate: null,
-            include: b => new { b.Author, b.Publisher },
+            include: b => b.Author,
             order: p => p.Id,
             ascending: false,
             page: page,
             pageSize: pageSize);
 
     protected override void ChangeForUpdate(Book entity, BookViewModel viewModel)
-    { 
-        entity.Id = viewModel.Id;
+    {
         entity.Title = viewModel.Title;
         entity.ImagePath = viewModel.ImagePath;
         entity.ISBN = viewModel.ISBN;
